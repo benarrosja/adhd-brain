@@ -1,0 +1,15 @@
+{
+  "name": "adhd.brain",
+  "version": "1.0.0",
+  "description": "ADHD External Brain - Distributed Systems CA - NCI",
+  "main": "start-all.js",
+  "scripts": {
+    "start": "node start-all.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.0",
+    "@grpc/proto-loader": "^0.7.10",
+    "bonjour-service": "^1.1.1",
+    "express": "^4.18.2"
+  }
+}
