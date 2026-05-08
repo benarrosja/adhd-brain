@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package reward;
+
+// RewardService simulates a gamified reward board
+
+
+service RewardService {
+
+  // Unary: client sends focus score, server calculates and replies once
+  rpc ClaimReward (ClaimRewardRequest) returns (RewardResponse);
+
+  // Unary: client sends mood, server picks a quote and replies once
+  rpc GetMotivation (MotivationRequest) returns (MotivationResponse);
+
+  // Server Streaming: server sends daily plan items one at a time
+  rpc StreamDailyPlan (DailyPlanRequest) returns (stream PlanItem);
+
+}
+
+// What the client sends to claim a reward
+message ClaimRewardRequest {
+  string user_id  = 1;  // who is claiming - cannot be empty
+  double focus_score = 2;  // 0 to 100 - determines points earned
+  string task_title  = 3;  // optional - used in the reward message
+}
+
+// What the server sends back after calculating the reward
+message RewardResponse {
+  int32  points_earned  = 1;  // points earned this session (20-100)
+  int32  total_points = 2;  // running total for this user
+  string badge = 3;  // emoji badge based on total points
+  string message = 4;  // personalised congratulations
+  string next_milestone  = 5;  // how many points to the next badge
+}
+
+// What the client sends to get a motivational quote
+message MotivationRequest {
+  string user_name = 1;  // optional - personalises the quote
+  string mood = 2;  // anxious, stuck, tired or happy
+}
+
+// What the server sends back with the quote
+message MotivationResponse {
+  string quote   = 1;  // the motivational quote text
+  string author = 2;  // who said it
+  string mood_match = 3; // the mood this quote was matched to
+}
+
+// What the client sends to request a daily plan
+message DailyPlanRequest {
+  string user_id = 1; // who the plan is for - cannot be empty
+  string date = 2; // optional date e.g. "2026-05-08"
+}
+
+// One item in the daily plan
+// Server sends these one at a time via server streaming
+message PlanItem {
+  int32  item_number = 1;  // position 1 through 13
+  string title  = 2;  // e.g. "Focus Block 1" or "Short Break"
+  int32  duration_minutes = 3;  // how long this item lasts
+  string type    = 4;  // "work", "break" or "reward"
+  bool   is_last  = 5;  // true on item 13 - signals end of stream
+}
