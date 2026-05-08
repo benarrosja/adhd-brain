@@ -1,0 +1,29 @@
+syntax = "proto3";
+package focus;
+// Focus service simmulate a weareable focus monitor and ADHD coach 
+service focusService {
+    //unary - client sends session details , server replies once 
+    rpc StartSession (StartSessionRequest) returns (SessionResponse);
+    
+    //Client Streaming - ckuebt sends many heartbeats, server replies once
+    rpc SendFocusHeartbeats (stream Focus Heartbeat) returns ( stream CoachMessage);
+}
+// what the client sends to start a focus session
+message StartSessionRequest {
+string task_title  = 1; // what the user is working on
+int32 duration_minutes = 2; // how lon the seesion lasts (1-120)
+}
+// what the server sends back when a seesion is created 
+message SessionResponse{
+    string session_id = 1; // unique id for this session 
+    string message = 2; // confirmation message 
+    bool sucess = 3;// true if session was created 
+    }
+    // one heartbeat from the simulated weareable device
+    // the client sends a STREAM of these in SendFocusHeartbeats
+    message FocusHeartbeat {
+        string session _id = 1 ; // links this heartbeat to a session 
+        bool is_focused =2; // was the user focused at thi time? 
+        string note = 3; // optimal note e.g felling distracted 
+    }
+    
