@@ -13,8 +13,8 @@ const Bonjour = require('bonjour-service');
 // One Bonjour instance manages all network announcements
 const bonjour = new Bonjour();
 
-// Keeps track of services we have published
-// so we can stop them cleanly on shutdown
+// Keeps track of services have published
+// so can stop them cleanly on shutdown
 const publishedServices = {};
 
 // ── REGISTER: announce a service on the local network ───────────────
@@ -24,12 +24,12 @@ function publishService(name, type, port, meta) {
 
   const service = bonjour.publish({
     name: name,   // human-readable name e.g. "TaskService"
-    type: type,   // service type we invented e.g. "adhd-task"
+    type: type,   // service type e.g. "adhd-task"
     port: port,   // the port this service runs on e.g. 50051
     txt:  meta    // extra info: protocol, version, description
   });
 
-  // Save reference so we can stop it later
+  // Save reference so can stop it later
   publishedServices[name] = service;
 
   console.log(`📡 Registered: ${name} on port ${port}`);
@@ -66,7 +66,7 @@ function discoverServices(type, callback) {
 // Called when a service receives Ctrl+C (SIGINT signal)
 function shutdown() {
 
-  // Stop each service we published - removes it from the network
+  // Stop each service published - removes it from the network
   Object.values(publishedServices).forEach(svc => svc.stop());
 
   // Release the UDP socket used for mDNS
