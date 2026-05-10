@@ -1,3 +1,5 @@
+// Service definition- taskService with unary and server-streaming RPCs
+
 syntax = "proto3";
 
 package task;
@@ -8,14 +10,14 @@ service TaskService {
   rpc StreamMicroTasks (MicroTaskRequest) returns (stream MicroTask);
 }
 
-message AddTaskRequest {
-  string title            = 1;
-  string description      = 2;
-  int32  priority         = 3;
+message AddTaskRequest{
+  string title = 1;
+  string description = 2;
+  int32  priority = 3;
   int32  duration_minutes = 4;
 }
 
-message GetTaskRequest {
+message GetTaskRequest{
   string task_id = 1;
 }
 
@@ -25,16 +27,16 @@ message MicroTaskRequest {
 
 message TaskResponse {
   string task_id = 1;
-  string title   = 2;
-  bool   success = 3;
+  string title = 2;
+  bool success = 3;
   string message = 4;
 }
 
 message MicroTask {
-  string micro_id         = 1;
-  string task_id          = 2;
-  string step_title       = 3;
-  int32  step_number      = 4;
+  string micro_id = 1;
+  string task_id = 2;
+  string step_title = 3;
+  int32  step_number = 4;
   int32  duration_minutes = 5;
-  bool   is_last          = 6;
+  bool   is_last = 6;
 }
