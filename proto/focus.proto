@@ -1,3 +1,4 @@
+// Defines FocusService with unary, client-streaming and bidirectional RPCs
 syntax = "proto3";
 package focus;
 // Focus service simmulate a weareable focus monitor and ADHD coach 
